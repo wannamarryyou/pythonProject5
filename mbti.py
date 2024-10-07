@@ -58,7 +58,7 @@ if "shuffled_questions" not in st.session_state:
 totals = {"W": 0, "D": 0, "H": 0, "L": 0, "C": 0, "B": 0, "M": 0, "F": 0}
 
 # 질문 응답 받기
-for q in questions:
+for q in st.session_state.shuffled_questions:
     answer = st.radio(q["text"], choices, index=2)  # 기본값: 보통이다
     score = scores[choices.index(answer)]
 
