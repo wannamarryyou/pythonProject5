@@ -1,4 +1,5 @@
 import streamlit as st
+import random
 
 # 페이지 설정
 st.set_page_config(page_title="Custom MBTI Test", layout="centered")
