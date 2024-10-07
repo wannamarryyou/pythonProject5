@@ -2,17 +2,18 @@ import streamlit as st
 import random
 
 # 페이지 설정
-st.set_page_config(page_title="Custom MBTI Test", layout="centered")
+st.set_page_config(page_title="Daegwak MBTI Test", layout="centered")
 
 # 타이틀
-st.title("Custom MBTI Personality Test")
+st.title("Daegwak MBTI Personality Test")
 
 # 설명
 st.write("""
 이 테스트는 당신의 성향을 4가지 유형(W/D, H/L, C/B, M/F)으로 나누어 분석합니다.
-각 질문에 대해 당신이 얼마나 동의하는지 선택해 주세요.
+\n각 질문에 대해 당신이 얼마나 동의하는지 선택해 주세요.
+\n선택을 하지 않을 시 '보통이다'를 선택한 것으로 간주됩니다.
 """)
-
+st.divider()
 # 질문 및 성향 설정
 questions = [
     {"text": "나는 대화의 재미보다 그 내용의 도덕적 수위를 훨씬 중요시한다.", "category": "W", "reverse": False},
@@ -53,14 +54,16 @@ scores = [0, 2, 5, 7, 10]
 # 질문 순서를 섞는 작업은 최초 실행 시 한 번만 수행
 if "shuffled_questions" not in st.session_state:
     st.session_state.shuffled_questions = random.sample(questions, len(questions))
-    
+
 # 성향별 점수 초기화
 totals = {"W": 0, "D": 0, "H": 0, "L": 0, "C": 0, "B": 0, "M": 0, "F": 0}
+number=1
 
 # 질문 응답 받기
 for q in st.session_state.shuffled_questions:
-    answer = st.radio(q["text"], choices, index=2)  # 기본값: 보통이다
-    score = scores[choices.index(answer)]
+    answer = st.radio(f"Q{number}.  "+q["text"], choices, index=None)  # 기본값: 보통이다
+    score = scores[choices.index(answer if answer!=None else '보통이다')]
+    number+=1
 
     # 역순 처리
     if q["reverse"]:
@@ -85,6 +88,7 @@ if st.button("결과 보기"):
     m_f_ratio = totals["M"] / (totals["M"] + totals["F"]) * 100
 
     # 결과 페이지 출력
+    st.balloons()
     st.subheader(f"당신의 성향은: {result}")
     st.write(f"**W/D (화이트 에너지 / 암흑 에너지)**: W: {w_d_ratio:.2f}%, D: {100 - w_d_ratio:.2f}%")
     st.write(f"**H/L (성실 / 나태)**: H: {h_l_ratio:.2f}%, L: {100 - h_l_ratio:.2f}%")
@@ -98,3 +102,5 @@ if st.button("결과 보기"):
     - **C(Creative)**: 창의적 / **B(Boring)**: 전형적
     - **M(Male)**: 남성적 / **F(Female)**: 여성적
     """)
+    st.divider()
+    st.caption("_Made by_ **도한** / 계속 수정될 예정..")
