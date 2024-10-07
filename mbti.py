@@ -66,11 +66,30 @@ for q in questions:
 
 # 결과 계산
 if st.button("결과 보기"):
+    # MBTI 유형 계산
     result = ""
     result += "W" if totals["W"] > totals["D"] else "D"
     result += "H" if totals["H"] > totals["L"] else "L"
     result += "C" if totals["C"] > totals["B"] else "B"
     result += "M" if totals["M"] > totals["F"] else "F"
 
+    # 성향별 비율 계산
+    w_d_ratio = totals["W"] / (totals["W"] + totals["D"]) * 100
+    h_l_ratio = totals["H"] / (totals["H"] + totals["L"]) * 100
+    c_b_ratio = totals["C"] / (totals["C"] + totals["B"]) * 100
+    m_f_ratio = totals["M"] / (totals["M"] + totals["F"]) * 100
+
+    # 결과 페이지 출력
     st.subheader(f"당신의 성향은: {result}")
-    st.write(f"총 점수: {totals}")
+    st.write(f"**W/D (화이트 에너지 / 암흑 에너지)**: W: {w_d_ratio:.2f}%, D: {100 - w_d_ratio:.2f}%")
+    st.write(f"**H/L (성실 / 나태)**: H: {h_l_ratio:.2f}%, L: {100 - h_l_ratio:.2f}%")
+    st.write(f"**C/B (창의적 / 전형적)**: C: {c_b_ratio:.2f}%, B: {100 - c_b_ratio:.2f}%")
+    st.write(f"**M/F (남성적 / 여성적)**: M: {m_f_ratio:.2f}%, F: {100 - m_f_ratio:.2f}%")
+
+    st.write("### 특성의 의미")
+    st.write("""
+    - **W(White)**: 화이트 에너지 / **D(Dark)**: 암흑 에너지
+    - **H(Hard-working)**: 성실 / **L(Lazy)**: 나태
+    - **C(Creative)**: 창의적 / **B(Boring)**: 전형적
+    - **M(Male)**: 남성적 / **F(Female)**: 여성적
+    """)
