@@ -49,6 +49,10 @@ questions = [
 choices = ['매우 아니다', '아니다', '보통이다', '그렇다', '매우 그렇다']
 scores = [0, 2, 5, 7, 10]
 
+# 질문 순서를 섞는 작업은 최초 실행 시 한 번만 수행
+if "shuffled_questions" not in st.session_state:
+    st.session_state.shuffled_questions = random.sample(questions, len(questions))
+    
 # 성향별 점수 초기화
 totals = {"W": 0, "D": 0, "H": 0, "L": 0, "C": 0, "B": 0, "M": 0, "F": 0}
 
